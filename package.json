@@ -1,7 +1,7 @@
 {
   "name": "expediente",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.2",
+  "description": "CLI para cálculo de duração do expediente",
   "main": "./index.js",
   "scripts": {
     "test": "mocha tests/"
@@ -13,6 +13,10 @@
   },
   "bin": {
     "expediente": "./bin/expediente"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/guilhermehn/expediente.git"
   },
   "dependencies": {
     "commander": "^2.2.0",
