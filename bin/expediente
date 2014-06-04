@@ -9,9 +9,9 @@ var program = require('commander')
 program
   .version(pkg.version)
   .usage('<HH:mm> [options]')
-  .option('-d, --duracao <HH:mm>', 'duracao do expediente [HH:mm]')
-  .option('-t, --tolerancia <HH:mm>', 'tolerância após o horário [HH:mm]')
-  .option('-D, --detalhado', 'resultado detalhado')
+  .option('-h, --hours <HH:mm>', 'hours [HH:mm]')
+  .option('-t, --tolerance <HH:mm>', 'tolerance [HH:mm]')
+  .option('-D, --detailed', 'detailed result')
   .parse(process.argv)
 
 if (!program.args.length) {
@@ -20,17 +20,17 @@ if (!program.args.length) {
 
 expediente = expediente.bind(this, program.args[0])
 
-if (program.duracao) {
-  expediente = expediente.bind(this, program.duracao)
+if (program.hours) {
+  expediente = expediente.bind(this, program.hours)
 }
 
-if (program.tolerancia) {
-  expediente = expediente.bind(this, program.tolerancia)
+if (program.tolerance) {
+  expediente = expediente.bind(this, program.tolerance)
 }
 
-if (program.detalhado) {
+if (program.detailed) {
   expediente = expediente.bind(this, true)
-  log = lib.logDetalhado
+  log = lib.logDetailed
 }
 
 log(expediente())

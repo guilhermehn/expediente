@@ -1,60 +1,61 @@
 var expect = require('expect.js')
   , lib = require('../lib')
+  , expediente = require('../')
   , simple
   , verbose
-  , entrada = '10:09'
-  , duracao = '8:00'
+  , start = '10:09'
+  , hours = '8:00'
 
 beforeEach(function () {
-  simple = lib.expediente(entrada)
-  verbose = lib.expediente(entrada, true)
+  simple = expediente(start)
+  verbose = expediente(start, true)
 })
 
 describe('lib', function () {
   describe('#expediente', function () {
-    it('deve calcular o horário de saída a partir do horário de entrada inputado', function () {
+    it('should calculate the expected exit time', function () {
       expect(simple).to.eql('19:57')
     })
 
-    it('retornar nulo caso o horário de entrada seja inválido', function () {
-      expect(lib.expediente('25:09')).to.be(null)
+    it('should return null if the start hour is invalid', function () {
+      expect(expediente('25:09')).to.be(null)
     })
 
-    describe('<duracao>', function () {
-      it('deve aceitar a duração da jornada de trabalho como parâmentro', function () {
-        expect(lib.expediente(entrada, duracao)).to.eql('18:09')
+    describe('<hours>', function () {
+      it('should accept a expedient time as second argument', function () {
+        expect(expediente(start, hours)).to.eql('18:09')
       })
 
-      it('deve ignorar tempo de jornada inválido', function () {
-        expect(lib.expediente(entrada, '27:12')).to.eql('19:57')
-        expect(lib.expediente(entrada, '8:92')).to.eql('19:57')
+      it('should ignore invalid expedient time', function () {
+        expect(expediente(start, '27:12')).to.eql('19:57')
+        expect(expediente(start, '8:92')).to.eql('19:57')
       })
     })
 
     describe('<verbose>', function () {
-      it('o modo verbose deve retornar um objeto', function () {
+      it('should return a detailed object', function () {
         expect(verbose).to.be.a('object')
       })
 
-      it('deve retornar a entrada', function () {
-        expect(verbose.entrada).to.eql(entrada)
+      it('it should return the start', function () {
+        expect(verbose.start).to.eql(start)
       })
 
-      it('deve retornar a saida', function () {
-        expect(verbose.saida).to.eql('19:57')
+      it('it should return the exit hour', function () {
+        expect(verbose.finish).to.eql('19:57')
       })
 
-      it('deve retornar o horário de tolerância', function () {
-        expect(verbose.limite).to.eql('20:17')
+      it('should return the limit time', function () {
+        expect(verbose.limit).to.eql('20:17')
       })
 
-      it('deve funcionar junto com o parâmentro de duracao', function () {
-        var duracaoVerbose = {
-            entrada: entrada
-          , saida: '18:09'
-          , limite: '18:29'
+      it('should work with all the hours argument', function () {
+        var hoursVerbose = {
+            start: start
+          , finish: '18:09'
+          , limit: '18:29'
         }
-        expect(lib.expediente(entrada, duracao, true)).to.eql(duracaoVerbose)
+        expect(expediente(start, hours, true)).to.eql(hoursVerbose)
       })
     })
   })
