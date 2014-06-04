@@ -1,15 +1,21 @@
 {
   "name": "expediente",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "./index.js",
   "scripts": {
     "test": "mocha tests/"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Guilherme Nagatomo",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 0.10.x"
+  },
+  "bin": {
+    "expediente": "./bin/expediente"
+  },
   "dependencies": {
-    "minimist": "^0.1.0",
+    "commander": "^2.2.0",
     "moment": "^2.6.0"
   },
   "devDependencies": {

@@ -1,0 +1,43 @@
+#!/usr/bin/env node
+
+var program = require('commander')
+  , pkg = require('../package.json')
+  , lib = require('../lib')
+  , expediente = require('../')
+  , log = console.log
+  , result
+
+program
+  .version(pkg.version)
+  .usage('<HH:mm> [options]')
+  .option('-d, --duracao <HH:mm>', 'duracao do expediente [HH:mm]')
+  .option('-t, --tolerancia <HH:mm>', 'tolerância após o horário [HH:mm]')
+  .option('-D, --detalhado', 'resultado detalhado')
+  .parse(process.argv)
+
+if (!program.args.length) {
+  program.help()
+}
+
+expediente = expediente.bind(this, program.args[0])
+
+if (program.duracao) {
+  expediente = expediente.bind(this, program.duracao)
+}
+
+if (program.tolerancia) {
+  expediente = expediente.bind(this, program.tolerancia)
+}
+
+if (program.detalhado) {
+  expediente = expediente.bind(this, true)
+  log = lib.logDetalhado
+}
+
+result = expediente()
+if (result) {
+  log(result)
+}
+else {
+  lib.usage()
+}
