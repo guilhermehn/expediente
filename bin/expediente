@@ -1,36 +1,71 @@
 #!/usr/bin/env node
 
 var program = require('commander')
+  , pwuid = require('pwuid')
+  , util = require('util')
   , pkg = require('../package.json')
   , lib = require('../lib')
+  , defaults = require('../conf')
   , expediente = require('../')
   , log = console.log
+  , config = {}
+  , configDir
+  , configFile
 
 program
   .version(pkg.version)
   .usage('<HH:mm> [options]')
   .option('-h, --hours <HH:mm>', 'hours [HH:mm]')
   .option('-t, --tolerance <HH:mm>', 'tolerance [HH:mm]')
+  .option('-c, --config <file>', 'choose config file')
   .option('-D, --detailed', 'detailed result')
-  .parse(process.argv)
+
+program.on('--help', function(){
+  log('  Config:')
+  log('')
+  log('    If the file ~/.expedienteconfig.json exists, expediente will ')
+  log('    use it\'s contents as settings for default expedient duration')
+  log('    or tolerance time. Any parameter will override any file config')
+  log('')
+  log('    See https://github.com/guilhermehn/expediente/blob/master/README.md')
+  log('    for example config.')
+  log('')
+})
+
+program.parse(process.argv)
+
+configDir = program.config || pwuid().dir + '/.expedienteconfig.json'
+
+if (configFile = lib.loadConfig(configDir)) {
+  Object
+    .keys(defaults)
+    .forEach(function (key) {
+      config[key] = configFile.hasOwnProperty(key)
+        ? configFile[key]
+        : defaults[key]
+    })
+}
+else {
+  config = defaults
+}
 
 if (!program.args.length) {
   program.help()
 }
 
-expediente = expediente.bind(this, program.args[0])
+config.start = program.args[0]
 
 if (program.hours) {
-  expediente = expediente.bind(this, program.hours)
+  config.hours = program.hours
 }
 
 if (program.tolerance) {
-  expediente = expediente.bind(this, program.tolerance)
+  config.tolerance = program.tolerance
 }
 
 if (program.detailed) {
-  expediente = expediente.bind(this, true)
+  config.detailed = program.detailed
   log = lib.logDetailed
 }
 
-log(expediente())
+log(expediente(config))
