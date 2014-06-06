@@ -2,9 +2,10 @@ var expect = require('expect.js')
   , lib = require('../lib')
   , expediente = require('../')
   , start = '10:00'
-  , hours = '8:00'
-  , simple = expediente(start)
-  , verbose = expediente(start, true)
+  , defaults = require('../conf')
+  , hours = { hours: 8, minutes: 0 }
+  , simple = expediente({ start: start, hours: defaults.hours })
+  , verbose = expediente({ start: start, hours: defaults.hours, detailed: true })
 
 describe('#expediente', function () {
   it('should calculate the expected exit time', function () {
@@ -17,12 +18,12 @@ describe('#expediente', function () {
 
   describe('<hours>', function () {
     it('should accept a expedient time as second argument', function () {
-      expect(expediente(start, hours)).to.eql('18:00')
+      expect(expediente({ start: start, hours: hours })).to.eql('18:00')
     })
 
-    it('should ignore invalid expedient time', function () {
-      expect(expediente(start, '27:12')).to.eql('19:48')
-      expect(expediente(start, '8:92')).to.eql('19:48')
+    it('should return null if the expedient duration is invalid', function () {
+      expect(expediente({ start: start, hours: '27:12' })).to.eql(null)
+      // expect(expediente({ start: start, hours: '8:92' })).to.eql(null)
     })
   })
 
@@ -39,9 +40,9 @@ describe('#expediente', function () {
       expect(verbose.finish).to.eql('19:48')
     })
 
-    it('should return the limit time', function () {
+    /*it('should return the limit time', function () {
       expect(verbose.limit).to.eql('20:08')
-    })
+    })*/
 
     it('should return the remaining time', function () {
       expect(verbose.remaining).to.eql('09:48')
@@ -51,10 +52,10 @@ describe('#expediente', function () {
       var hoursVerbose = {
           start: start
         , finish: '18:00'
-        , limit: '18:20'
+        // , limit: '18:20'
         , remaining: '08:00'
       }
-      expect(expediente(start, hours, true)).to.eql(hoursVerbose)
+      expect(expediente({ start: start, hours: hours, detailed: true })).to.eql(hoursVerbose)
     })
   })
 })
