@@ -20,8 +20,8 @@ Expedient info CLI
 - `HH:mm`: Start time
 
 ## Optional Arguments ##
-- `-h`: `HH:mm` Expedient duration *(defaults to **9:48**)*
-- `-t`: `HH:mm` Tolerance time after expedient *(defaults to **00:20**)*
+- `-h`: `HH:mm` Expedient duration *(defaults to 9:48)*
+- `-t`: `HH:mm` Tolerance time after expedient *(defaults to 00:20)*
 - `-D`: Outputs detailed info
 - `-c`: JSON config file path
 
