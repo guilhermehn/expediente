@@ -17,17 +17,27 @@ Expedient info CLI
     20:30
 
 ## Arguments ##
-### `HH:mm` ###
-Start time
+- `HH:mm`: Start time
 
-### `-h HH:mm` ###
-Expedient duration (defaults to 9h48)
+## Optional Arguments ##
+- `-h`: `HH:mm` Expedient duration *(defaults to **9:48**)*
+- `-t`: `HH:mm` Tolerance time after expedient *(defaults to **00:20**)*
+- `-D`: Outputs detailed info
+- `-c`: JSON config file path
 
-### `-t HH:mm` ###
-Tolerance time after expedient (defaults to 20m)
+## Config ##
+If the file `~/.expedienteconfig.json` exists, expediente will
+use it's contents as settings for default expedient duration
+and tolerance time. Any command line argument will override the file config.
 
-### `-D` ###
-Outputs detailed info
+### Example config file ###
+```javascript
+{
+  "hours": "9:00",     // Expedient duration
+  "tolerance": "0:10", // Tolerance time
+  "detailed": true     // Always output detailed info
+}
+```
 
 ## License ##
 MIT
