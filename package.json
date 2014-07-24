@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "commander": "^2.2.0",
-    "moment": "^2.6.0",
+    "moment": "^2.7.0",
     "pwuid": "^0.1.0"
   },
   "devDependencies": {
