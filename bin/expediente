@@ -1,17 +1,22 @@
 #!/usr/bin/env node
 
+/*
+ * Expediente CLI
+ */
+
 var program = require('commander')
-  , pwuid = require('pwuid')
   , util = require('util')
   , pkg = require('../package.json')
   , lib = require('../lib')
   , defaults = require('../conf')
   , expediente = require('../')
+  , defaultConfig = require('pwuid')().dir + '/.expedienteconfig.json'
   , log = console.log
   , config = {}
   , configDir
   , configFile
 
+// Arguments
 program
   .version(pkg.version)
   .usage('<HH:mm> [options]')
@@ -20,12 +25,13 @@ program
   .option('-c, --config <file>', 'choose config file')
   .option('-D, --detailed', 'detailed result')
 
+// Help
 program.on('--help', function(){
   log('  Config:')
   log('')
   log('    If the file ~/.expedienteconfig.json exists, expediente will ')
   log('    use it\'s contents as settings for default expedient duration')
-  log('    or tolerance time. Any parameter will override any file config')
+  log('    or tolerance time. Any parameter will override the file config')
   log('')
   log('    See https://github.com/guilhermehn/expediente/blob/master/README.md')
   log('    for example config.')
@@ -34,7 +40,8 @@ program.on('--help', function(){
 
 program.parse(process.argv)
 
-configDir = program.config || pwuid().dir + '/.expedienteconfig.json'
+// Set config load
+configDir = program.config || defaultConfig
 
 if (configFile = lib.loadConfig(configDir)) {
   Object
