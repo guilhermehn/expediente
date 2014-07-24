@@ -59,3 +59,20 @@ describe('#expediente', function () {
     })
   })
 })
+
+describe('#lib', function () {
+  describe('#validateHourString()', function () {
+    it('should validate HH:mm string', function () {
+      expect(lib.validateHourString('11:12')).to.be.ok()
+      expect(lib.validateHourString('1:12')).to.be.ok()
+    })
+
+    it('should return false if string is invalid', function () {
+      var invalidValues = ['25:00', '-1:00', '100', '0', undefined, null, false, true, 1, 12, 60]
+
+      invalidValues.forEach(function (value) {
+        expect(lib.validateHourString(value)).to.not.be.ok()
+      })
+    })
+  })
+})
