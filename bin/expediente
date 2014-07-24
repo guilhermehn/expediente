@@ -56,6 +56,8 @@ else {
   config = defaults
 }
 
+// Show help text if the default
+// argument is not present
 if (!program.args.length) {
   program.help()
 }
