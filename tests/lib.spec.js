@@ -45,6 +45,7 @@ describe('#expediente', function () {
       var hoursVerbose = {
           start: start
         , finish: '18:00'
+        , minimum: '17:45'
         , remaining: moment('18:00', 'HH:mm').subtract(moment()).format('HH:mm')
       }
       expect(expediente({ start: start, hours: hours, detailed: true })).to.eql(hoursVerbose)
