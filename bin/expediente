@@ -77,4 +77,11 @@ if (program.detailed) {
   log = lib.logDetailed;
 }
 
-log(expediente(config));
+var result = expediente(config);
+
+if (result === null) {
+  console.log('\n  Invalid argument');
+  program.help();
+}
+
+log(result);
