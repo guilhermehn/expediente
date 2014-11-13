@@ -9,7 +9,6 @@ var pkg = require('../package.json');
 var lib = require('../lib');
 var defaults = require('../conf');
 var expediente = require('../');
-var defaultConfig = require('pwuid')().dir + '/.expedienteconfig.json';
 var log = console.log;
 var config = {};
 var configDir;
@@ -40,7 +39,7 @@ program.on('--help', function () {
 program.parse(process.argv);
 
 // Set config load
-configDir = program.config || defaultConfig;
+configDir = program.config || require('pwuid')().dir + '/.expedienteconfig.json';
 
 userConfig = lib.loadConfig(configDir);
 
