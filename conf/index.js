@@ -1,6 +1,6 @@
 var conf = {
-    hours: require('./hours.defaults.json')
-  , tolerance: require('./tolerance.defaults.json')
-}
+  hours: require('./hours.defaults.json'),
+  tolerance: require('./tolerance.defaults.json')
+};
 
-module.exports = conf
+module.exports = conf;

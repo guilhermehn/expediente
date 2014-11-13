@@ -1,1 +1,1 @@
-module.exports = require('./lib/expediente')
+module.exports = require('./lib/expediente');
