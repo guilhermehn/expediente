@@ -14,7 +14,7 @@ var defaultConfig = require('pwuid')().dir + '/.expedienteconfig.json';
 var log = console.log;
 var config = {};
 var configDir;
-var configFile;
+var userConfig;
 
 // Arguments
 program
@@ -43,13 +43,13 @@ program.parse(process.argv);
 // Set config load
 configDir = program.config || defaultConfig;
 
-configFile = lib.loadConfig(configDir);
+userConfig = lib.loadConfig(configDir);
 
-if (configFile) {
+if (userConfig) {
   Object
     .keys(defaults)
     .forEach(function (key) {
-      config[key] = (configFile.hasOwnProperty(key) ? configFile : defaults)[key];
+      config[key] = (userConfig.hasOwnProperty(key) ? userConfig : defaults)[key];
     });
 }
 else {
