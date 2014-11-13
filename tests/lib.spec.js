@@ -4,9 +4,22 @@ var expediente = require('../');
 var lib = require('../lib');
 var start = '10:00';
 var defaults = require('../conf');
-var hours = { hours: 8, minutes: 0 };
-var simple = expediente({ start: start, hours: defaults.hours });
-var verbose = expediente({ start: start, hours: defaults.hours, detailed: true });
+
+var hours = {
+  hours: 8,
+  minutes: 0
+};
+
+var simple = expediente({
+  start: start,
+  hours: defaults.hours
+});
+
+var verbose = expediente({
+  start: start,
+  hours: defaults.hours,
+  detailed: true
+});
 
 describe('#expediente', function () {
   it('should calculate the expected exit time', function () {
@@ -19,11 +32,21 @@ describe('#expediente', function () {
 
   describe('<hours>', function () {
     it('should accept a expedient time as second argument', function () {
-      expect(expediente({ start: start, hours: hours })).to.eql('18:00');
+      var options = {
+        start: start,
+        hours: hours
+      };
+
+      expect(expediente(options)).to.eql('18:00');
     });
 
     it('should return null if the expedient duration is invalid', function () {
-      expect(expediente({ start: start, hours: '27:12' })).to.eql(null);
+      var options = {
+        start: start,
+        hours: '27:12'
+      };
+
+      expect(expediente(options)).to.eql(null);
     });
   });
 
@@ -47,7 +70,13 @@ describe('#expediente', function () {
         minimum: '17:45',
         remaining: moment('18:00', 'HH:mm').subtract(moment()).format('HH:mm')
       };
-      expect(expediente({ start: start, hours: hours, detailed: true })).to.eql(hoursVerbose);
+
+      var options = {
+        start: start,
+        hours: hours,
+        detailed: true
+      };
+      expect(expediente(options)).to.eql(hoursVerbose);
     });
   });
 });
