@@ -20,6 +20,7 @@
     "url": "git://github.com/guilhermehn/expediente.git"
   },
   "dependencies": {
+    "chalk": "^0.5.1",
     "commander": "^2.2.0",
     "moment": "^2.7.0",
     "pwuid": "^0.1.0"
