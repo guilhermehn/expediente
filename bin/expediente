@@ -4,17 +4,17 @@
  * Expediente CLI
  */
 
-var program = require('commander')
-  , util = require('util')
-  , pkg = require('../package.json')
-  , lib = require('../lib')
-  , defaults = require('../conf')
-  , expediente = require('../')
-  , defaultConfig = require('pwuid')().dir + '/.expedienteconfig.json'
-  , log = console.log
-  , config = {}
-  , configDir
-  , configFile
+var program = require('commander');
+var util = require('util');
+var pkg = require('../package.json');
+var lib = require('../lib');
+var defaults = require('../conf');
+var expediente = require('../');
+var defaultConfig = require('pwuid')().dir + '/.expedienteconfig.json';
+var log = console.log;
+var config = {};
+var configDir;
+var configFile;
 
 // Arguments
 program
@@ -23,58 +23,58 @@ program
   .option('-h, --hours <HH:mm>', 'hours [HH:mm]')
   .option('-t, --tolerance <HH:mm>', 'tolerance [HH:mm]')
   .option('-c, --config <file>', 'choose config file')
-  .option('-D, --detailed', 'detailed result')
+  .option('-D, --detailed', 'detailed result');
 
 // Help
-program.on('--help', function(){
-  log('  Config:')
-  log('')
-  log('    If the file ~/.expedienteconfig.json exists, expediente will ')
-  log('    use it\'s contents as settings for default expedient duration')
-  log('    or tolerance time. Any parameter will override the file config')
-  log('')
-  log('    See https://github.com/guilhermehn/expediente/blob/master/README.md')
-  log('    for example config.')
-  log('')
-})
+program.on('--help', function () {
+  log('  Config:');
+  log('');
+  log('    If the file ~/.expedienteconfig.json exists, expediente will ');
+  log('    use it\'s contents as settings for default expedient duration');
+  log('    or tolerance time. Any parameter will override the file config');
+  log('');
+  log('    See https://github.com/guilhermehn/expediente/blob/master/README.md');
+  log('    for example config.');
+  log('');
+});
 
-program.parse(process.argv)
+program.parse(process.argv);
 
 // Set config load
-configDir = program.config || defaultConfig
+configDir = program.config || defaultConfig;
 
-if (configFile = lib.loadConfig(configDir)) {
+configFile = lib.loadConfig(configDir);
+
+if (configFile) {
   Object
     .keys(defaults)
     .forEach(function (key) {
-      config[key] = configFile.hasOwnProperty(key)
-        ? configFile[key]
-        : defaults[key]
-    })
+      config[key] = (configFile.hasOwnProperty(key) ? configFile : defaults)[key];
+    });
 }
 else {
-  config = defaults
+  config = defaults;
 }
 
 // Show help text if the default
 // argument is not present
 if (!program.args.length) {
-  program.help()
+  program.help();
 }
 
-config.start = program.args[0]
+config.start = program.args[0];
 
 if (program.hours) {
-  config.hours = program.hours
+  config.hours = program.hours;
 }
 
 if (program.tolerance) {
-  config.tolerance = program.tolerance
+  config.tolerance = program.tolerance;
 }
 
 if (program.detailed) {
-  config.detailed = program.detailed
-  log = lib.logDetailed
+  config.detailed = program.detailed;
+  log = lib.logDetailed;
 }
 
-log(expediente(config))
+log(expediente(config));
