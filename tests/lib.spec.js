@@ -1,8 +1,9 @@
 var expect = require('expect.js');
 var expediente = require('../');
 var lib = require('../lib');
-var start = '10:00';
 var defaults = require('../conf');
+var moment = require('moment');
+var start = '10:00';
 
 var testHours = '8:00';
 
@@ -77,6 +78,23 @@ describe('#expediente', function () {
       expect(result.start).eql(expected.start);
       expect(result.finish).eql(expected.finish);
       expect(result.minimum).eql(expected.minimum);
+    });
+
+    it('should have a `remaining` time when it`s is before the finish time', function () {
+      var result = expediente({
+        start: start,
+        hours: testHours
+      });
+
+      var now = moment();
+      var finish = moment(result.finish, 'HH:mm');
+
+      if (finish.isAfter(now)) {
+        var remaining = moment(result.remaining, 'HH:mm');
+        var expected = moment(finish.diff(now, 'hours') + ':' + finish.diff(now, 'minutes') % 60, 'HH:mm');
+
+        expect(remaining.format('HH:mm')).eql(expected.format('HH:mm'));
+      }
     });
   });
 });
