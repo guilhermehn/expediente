@@ -1,14 +1,10 @@
 var expect = require('expect.js');
-var moment = require('moment');
 var expediente = require('../');
 var lib = require('../lib');
 var start = '10:00';
 var defaults = require('../conf');
 
-var hours = {
-  hours: 8,
-  minutes: 0
-};
+var testHours = '8:00';
 
 var simple = expediente({
   start: start,
@@ -34,7 +30,7 @@ describe('#expediente', function () {
     it('should accept a expedient time as second argument', function () {
       var options = {
         start: start,
-        hours: hours
+        hours: testHours
       };
 
       expect(expediente(options)).to.eql('18:00');
@@ -64,19 +60,23 @@ describe('#expediente', function () {
     });
 
     it('should work with all the hours argument', function () {
-      var hoursVerbose = {
-        start: start,
+      var expected = {
+        start: '10:00',
         finish: '18:00',
-        minimum: '17:45',
-        remaining: moment('18:00', 'HH:mm').subtract(moment()).format('HH:mm')
+        minimum: '17:45'
       };
 
       var options = {
         start: start,
-        hours: hours,
+        hours: testHours,
         detailed: true
       };
-      expect(expediente(options)).to.eql(hoursVerbose);
+
+      var result = expediente(options);
+
+      expect(result.start).to.eql(expected.start);
+      expect(result.finish).to.eql(expected.finish);
+      expect(result.minimum).to.eql(expected.minimum);
     });
   });
 });
