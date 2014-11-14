@@ -8,7 +8,8 @@ var testHours = '8:00';
 
 var simple = expediente({
   start: start,
-  hours: defaults.hours
+  hours: defaults.hours,
+  simple: true
 });
 
 var verbose = expediente({
@@ -30,7 +31,8 @@ describe('#expediente', function () {
     it('should accept a expedient time as second argument', function () {
       var options = {
         start: start,
-        hours: testHours
+        hours: testHours,
+        simple: true
       };
 
       expect(expediente(options)).to.eql('18:00');
@@ -67,8 +69,7 @@ describe('#expediente', function () {
 
       var options = {
         start: start,
-        hours: testHours,
-        detailed: true
+        hours: testHours
       };
 
       var result = expediente(options);
