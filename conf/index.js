@@ -1,6 +1,6 @@
 var conf = {
   hours: '9:48',
-  tolerance: require('./tolerance.defaults.json')
+  tolerance: '0:15'
 };
 
 module.exports = conf;
