@@ -9,7 +9,7 @@ var pkg = require('../package.json');
 var lib = require('../lib');
 var defaults = require('../conf');
 var expediente = require('../');
-var log = console.log;
+var logger = console.log;
 var config = {};
 var configDir;
 var userConfig;
@@ -21,19 +21,19 @@ program
   .option('-h, --hours <HH:mm>', 'hours [HH:mm]')
   .option('-t, --tolerance <HH:mm>', 'tolerance [HH:mm]')
   .option('-c, --config <file>', 'choose config file')
-  .option('-D, --detailed', 'detailed result');
+  .option('-s, --simple', 'output finish time only');
 
 // Help
 program.on('--help', function () {
-  log('  Config:');
-  log('');
-  log('    If the file ~/.expedienteconfig.json exists, expediente will ');
-  log('    use it\'s contents as settings for default expedient duration');
-  log('    or tolerance time. Any parameter will override the file config');
-  log('');
-  log('    See https://github.com/guilhermehn/expediente/blob/master/README.md');
-  log('    for example config.');
-  log('');
+  logger('  Config:');
+  logger('');
+  logger('    If the file ~/.expedienteconfig.json exists, expediente will ');
+  logger('    use it\'s contents as settings for default expedient duration');
+  logger('    or tolerance time. Any parameter will override the file config');
+  logger('');
+  logger('    See https://github.com/guilhermehn/expediente/blob/master/README.md');
+  logger('    for example config.');
+  logger('');
 });
 
 program.parse(process.argv);
@@ -70,9 +70,11 @@ if (program.tolerance) {
   config.tolerance = program.tolerance;
 }
 
-if (program.detailed) {
-  config.detailed = program.detailed;
-  log = lib.logDetailed;
+if (program.simple) {
+  config.simple = program.simple;
+}
+else {
+  logger = lib.logDetailed;
 }
 
 var result = expediente(config);
@@ -82,4 +84,4 @@ if (result === null) {
   program.help();
 }
 
-log(result);
+logger(result);
