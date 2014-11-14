@@ -1,5 +1,5 @@
 var conf = {
-  hours: require('./hours.defaults.json'),
+  hours: '9:48',
   tolerance: require('./tolerance.defaults.json')
 };
 
