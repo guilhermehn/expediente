@@ -54,11 +54,11 @@ describe('#expediente', function () {
       expect(verbose).be.a('object');
     });
 
-    it('it should return the start', function () {
+    it('should return the start', function () {
       expect(verbose.start).eql(start);
     });
 
-    it('it should return the exit hour', function () {
+    it('should return the exit hour', function () {
       expect(verbose.finish).eql('19:48');
     });
 
