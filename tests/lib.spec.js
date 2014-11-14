@@ -62,8 +62,7 @@ describe('#expediente', function () {
     it('should work with all the hours argument', function () {
       var expected = {
         start: '10:00',
-        finish: '18:00',
-        minimum: '17:45'
+        finish: '18:00'
       };
 
       var options = {
