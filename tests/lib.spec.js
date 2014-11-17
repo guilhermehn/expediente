@@ -134,4 +134,37 @@ describe('#lib', function () {
       expect(lib.loadConfig(__dirname + '/invalidConfig.json')).be(null);
     });
   });
+
+  describe('#isValidOptions()', function () {
+    it('should return false if the `start` or `hours` property doesn`t exists', function () {
+      expect(lib.isValidOptions({ start: '9:00' })).not.ok();
+      expect(lib.isValidOptions({ hours: '9:00' })).not.ok();
+      expect(lib.isValidOptions({ start: '9:00', hours: '9:00' })).ok();
+    });
+
+    it('should return false if the `start` property is invalid', function () {
+      expect(lib.isValidOptions({ start: '9h00', hours: '9:00' })).not.ok();
+      expect(lib.isValidOptions({ start: '9h', hours: '9:00' })).not.ok();
+      expect(lib.isValidOptions({ start: '9', hours: '9:00' })).not.ok();
+      expect(lib.isValidOptions({ start: 9, hours: '9:00' })).not.ok();
+      expect(lib.isValidOptions({ start: '9:00', hours: '9:00' })).ok();
+    });
+
+    it('should return false if the `hours` property is invalid', function () {
+      expect(lib.isValidOptions({ start: '9:00', hours: '99:00' })).not.ok();
+      expect(lib.isValidOptions({ start: '9:00', hours: '9h00' })).not.ok();
+      expect(lib.isValidOptions({ start: '9:00', hours: '9h' })).not.ok();
+      expect(lib.isValidOptions({ start: '9:00', hours: '9' })).not.ok();
+      expect(lib.isValidOptions({ start: '9:00', hours: 9 })).not.ok();
+      expect(lib.isValidOptions({ start: '9:00', hours: '9:00' })).ok();
+    });
+
+    it('should return false if the `tolerance` property exists and it`s invalid', function () {
+      expect(lib.isValidOptions({ start: '9:00', hours: '9:00', tolerance: '28:00' })).not.ok();
+      expect(lib.isValidOptions({ start: '9:00', hours: '9:00', tolerance: '28h00' })).not.ok();
+      expect(lib.isValidOptions({ start: '9:00', hours: '9:00', tolerance: '8h00' })).not.ok();
+      expect(lib.isValidOptions({ start: '9:00', hours: '9:00', tolerance: '15m' })).not.ok();
+      expect(lib.isValidOptions({ start: '9:00', hours: '9:00', tolerance: '00:15' })).ok();
+    });
+  });
 });
