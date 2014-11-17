@@ -114,4 +114,10 @@ describe('#lib', function () {
       });
     });
   });
+
+  describe('#format()', function () {
+    it('should run the moment#format() method with the `HH:mm` patern', function () {
+      expect(lib.format(moment())).match(/^\d{2}:\d{2}$/);
+    });
+  });
 });
