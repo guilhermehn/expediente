@@ -120,4 +120,18 @@ describe('#lib', function () {
       expect(lib.format(moment())).match(/^\d{2}:\d{2}$/);
     });
   });
+
+  describe('#loadConfig()', function () {
+    it('should load a config json file', function () {
+      expect(lib.loadConfig(__dirname + '/testConfig.json')).a(Object);
+    });
+
+    it('should return null when the file does not exists', function () {
+      expect(lib.loadConfig(__dirname + '/fakeConfig.json')).be(null);
+    });
+
+    it('should return null when the file is a invalid json', function () {
+      expect(lib.loadConfig(__dirname + '/invalidConfig.json')).be(null);
+    });
+  });
 });
