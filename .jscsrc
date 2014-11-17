@@ -28,7 +28,6 @@
   "disallowMultipleVarDecl": true,
   "requireBlocksOnNewline": true,
   "disallowPaddingNewlinesInBlocks": true,
-  "requirePaddingNewLinesInObjects": true,
   "disallowEmptyBlocks": true,
   "disallowSpacesInsideArrayBrackets": true,
   "disallowSpacesInsideParentheses": true,
