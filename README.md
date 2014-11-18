@@ -11,13 +11,17 @@ Options:
   -V, --version            output the version number
   -h, --hours <HH:mm>      hours [HH:mm]
   -t, --tolerance <HH:mm>  tolerance [HH:mm]
-  -D, --detailed           detailed result
+  -s, --simple             simple output
 ```
 
 ## Example
 ```
 $ expediente 10:42
-20:30
+Start     10:42
+Remaining 02:26
+Minimum   20:15
+Finish    20:30
+Limit     20:45
 ```
 
 ## Arguments
@@ -39,7 +43,7 @@ and tolerance time. Any command line argument will override the file config.
 {
   "hours": "9:00",     // Expedient duration
   "tolerance": "0:10", // Tolerance time
-  "detailed": true     // Always output detailed info
+  "simple": true       // Always output simplified info
 }
 ```
 
