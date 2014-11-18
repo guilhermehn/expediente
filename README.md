@@ -29,7 +29,7 @@ Limit     20:45
 
 ## Optional Arguments
 - `-h`: `HH:mm` Expedient duration *(defaults to 9:48)*
-- `-t`: `HH:mm` Tolerance time after expedient *(defaults to 00:20)*
+- `-t`: `HH:mm` Tolerance time after expedient *(defaults to 00:15)*
 - `-D`: Outputs detailed info
 - `-c`: JSON config file path
 
