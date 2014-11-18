@@ -22,6 +22,9 @@ Remaining 02:26
 Minimum   20:15
 Finish    20:30
 Limit     20:45
+
+$ expediente 10:42 -s
+20:30
 ```
 
 ## Arguments
