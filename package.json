@@ -22,8 +22,7 @@
   "dependencies": {
     "chalk": "^0.5.1",
     "commander": "^2.2.0",
-    "moment": "^2.7.0",
-    "pwuid": "^0.1.0"
+    "moment": "^2.7.0"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
