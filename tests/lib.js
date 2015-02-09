@@ -123,15 +123,15 @@ describe('#lib', function () {
 
   describe('#loadConfig()', function () {
     it('should load a config json file', function () {
-      expect(lib.loadConfig(__dirname + '/testConfig.json')).a(Object);
+      expect(lib.loadConfig(__dirname + '/json/testConfig.json')).a(Object);
     });
 
     it('should return null when the file does not exists', function () {
-      expect(lib.loadConfig(__dirname + '/fakeConfig.json')).be(null);
+      expect(lib.loadConfig(__dirname + '/json/fakeConfig.json')).be(null);
     });
 
     it('should return null when the file is a invalid json', function () {
-      expect(lib.loadConfig(__dirname + '/invalidConfig.json')).be(null);
+      expect(lib.loadConfig(__dirname + '/json/invalidConfig.json')).be(null);
     });
   });
 
