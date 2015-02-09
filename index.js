@@ -2,54 +2,79 @@ var moment = require('moment');
 var lib = require('./lib');
 var defaultFormat = 'HH:mm';
 
-/*
-  options
-    - start:     start time
-    - hours:     expedint duration
-    - tolerance: tolerance after work
-    - simple:    simple output
-*/
-
+/**
+ * Calculate the expedient time
+ * @param  {object} options
+ * @return {object}
+ */
 function expediente (options) {
-  var now = moment();
+  var now;
   var minimum;
 
+  // Return null if the options object is invalid
   if (!lib.isValidOptions(options)) {
     return null;
   }
 
+  // Start time moment object
   var start = moment(options.start, defaultFormat);
+
+  // Duration time moment object
   var duration = moment(options.hours, defaultFormat);
+
+  // Finish time moment object
   var finish = start.clone().add(duration);
 
+  // If the output mode is set to simple
+  // there's no need to continue, just
+  // return the finish time string
   if (options.simple) {
     return lib.format(finish);
   }
 
+  // The verbose output object starts
+  // with the start and finish time
   var result = {
     start: lib.format(start),
     finish: lib.format(finish)
   };
 
+  // If the tolerance options is received
+  // do the tolerance calculation
   if (options.tolerance) {
+    // Tolerance time moment object
     var tolerance = moment(options.tolerance, defaultFormat);
 
+    // If the tolerance is greater than 0 minutes or 0 hours
+    // calculate the minimum time and add the limit time
+    // to the result object
     if (tolerance.minutes() > 0 || tolerance.hours() > 0) {
       minimum = finish.clone().subtract(tolerance);
       result.limit = lib.format(finish.clone().add(tolerance));
     }
 
+    // Add the minimum property to the result object
     result.minimum = lib.format(minimum);
   }
 
+  // Get the actual time
+  now = moment();
+
+  // If now is before the finish time
   if (now.isBefore(finish)) {
+    // If there's a minimum time, use it to curry the
+    // remaining time calculator, otherwise use the finish time
     var getRemaining = now.diff.bind(minimum ? minimum : finish, now);
 
+    // The remaining time to be added to the result
+    // with the hours and minutes remaining to the
+    // minium or finish time
     var remaining = {
       hours: getRemaining('hours'),
       minutes: getRemaining('minutes') % 60
     };
 
+    // Add the remaining time object the actual result
     result.remaining = lib.format(moment([remaining.hours, remaining.minutes].join(':'), defaultFormat));
   }
 
