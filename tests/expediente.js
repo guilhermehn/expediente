@@ -95,5 +95,15 @@ describe('#expediente', function () {
         expect(remaining.format('HH:mm')).eql(expected.format('HH:mm'));
       }
     });
+
+    it('should calculate early finish time if the early property is passed', function () {
+      var result = expediente({
+        start: '10:00',
+        hours: '8:00',
+        early: '1:00'
+      });
+
+      expect(result.finish).be('17:00');
+    });
   });
 });

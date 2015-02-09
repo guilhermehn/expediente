@@ -22,6 +22,12 @@ function expediente (options) {
   // Duration time moment object
   var duration = moment(options.hours, defaultFormat);
 
+  // If the early property is received
+  // subtract it from the duration time
+  if (options.early) {
+    duration = duration.subtract(moment(options.early, 'HH:mm'));
+  }
+
   // Finish time moment object
   var finish = start.clone().add(duration);
 
