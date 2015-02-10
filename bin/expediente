@@ -11,41 +11,69 @@ var pkg = require('../package.json');
 var lib = require('../lib');
 var defaults = require('../conf');
 var expediente = require('../');
-var options = ['hours', 'tolerance', 'early'];
+var options = ['hours', 'tolerance', 'early', 'simple'];
 var logger = console.log;
 var defaultFormat = 'HH:mm';
 var now = moment();
 var config = {};
 var userConfig;
 
-function mapResult (obj, cb) {
+/**
+ * Map a object by its keys
+ * @param  {Object}   obj       The object which the keys will be mapped
+ * @param  {Function} iterator  The iterator function to be exectuted for each key
+ * @return {Object}
+ */
+function mapByKeys (obj, iterator) {
   var result = {};
 
+  // For each key of the object run the iterator and store
+  // the result to the `result` object inside the same key
   Object.keys(obj).forEach(function (key, i, keys) {
-    result[key] = cb(key, i, keys);
+    result[key] = iterator(key, i, keys);
   });
 
   return result;
 }
 
+/**
+ * Used to log each item from the result
+ * of the expedient calculation
+ * @param  {Object} result The expedient calculation result
+ * @return undefined
+ */
 function logDetailed (result) {
-  result = mapResult(result, function (key) {
+  // Transform each result item to moment object
+  result = mapByKeys(result, function (key) {
     return moment(result[key], defaultFormat);
   });
 
-  var almost = result.finish.diff(now, 'minutes') <= 30;
-  var goodToGo = now.isAfter(result.minimum);
   var onLimit = now.isAfter(result.finish) && now.isBefore(result.limit);
 
-  result = mapResult(result, function (key) {
+  result = mapByKeys(result, function (key) {
     return result[key].format(defaultFormat);
   });
 
+  // Log the start time
   console.log('Start    ', result.start);
-  console.log('Remaining', almost ? chalk.blue(result.remaining) : result.remaining);
-  console.log('Minimum  ', goodToGo ? chalk.green(result.minimum) : result.minimum);
+
+  // If there's a remaining time, log it
+  if (result.remaining) {
+    // Check if now is close to finish time
+    var almost = result.finish.diff(now, 'minutes') <= 30;
+    console.log('Remaining', almost ? chalk.blue(result.remaining) : result.remaining);
+  }
+
+  // If there's a minimum time, log it
+  if (result.minimum) {
+    var goodToGo = now.isAfter(result.minimum);
+    console.log('Minimum  ', goodToGo ? chalk.green(result.minimum) : result.minimum);
+  }
+
+  // Log the finish time
   console.log('Finish   ', onLimit ? chalk.red(result.finish) : result.finish);
 
+  // If there's a limit time, log it
   if (result.limit) {
     console.log('Limit    ', onLimit ? chalk.yellow(result.limit) : result.limit);
   }
@@ -74,18 +102,23 @@ program.on('--help', function () {
   logger('');
 });
 
+// Parse the cli arguments
 program.parse(process.argv);
 
 // Set config load
 userConfig = lib.loadConfig(program.config || '~/.expedienteconfig.json');
 
+// If the user has a config file
+// use it to as the default config
 if (userConfig) {
   Object
     .keys(defaults)
     .forEach(function (key) {
-      config[key] = (userConfig.hasOwnProperty(key) ? userConfig : defaults)[key];
+      var obj = userConfig.hasOwnProperty(key) ? userConfig : defaults;
+      config[key] = obj[key];
     });
 }
+// Otherwise the package defaults will be used
 else {
   config = defaults;
 }
@@ -96,26 +129,36 @@ if (!program.args.length) {
   program.help();
 }
 
+// The start must be the first parameter
 config.start = program.args[0];
 
+// Extends the config object
+// with the cli parameters
 options.forEach(function (option) {
   if (program[option]) {
-    config [option] = program[option];
+    config[option] = program[option];
   }
 });
 
-if (program.simple) {
-  config.simple = program.simple;
-}
-else {
+// If the --simple flag is not received
+// switch the logger function to the
+// detailed version
+if (!program.simple) {
   logger = logDetailed;
 }
 
+// Calculate the expedient
 var result = expediente(config);
 
+// If the result is null something is
+// wrong with the parameters.
+// Inform the problem, show the help
+// and exit with code 1
 if (result === null) {
   console.log('\n  Invalid argument');
   program.help();
 }
 
+// Log the results of the
+// expedient calculation
 logger(result);
