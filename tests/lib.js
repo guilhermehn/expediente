@@ -7,6 +7,8 @@ describe('#lib', function () {
     it('should return true if the string is a valid HH:mm hour', function () {
       expect(lib.isValidHour('11:12')).ok();
       expect(lib.isValidHour('1:12')).ok();
+      expect(lib.isValidHour('11:1')).not.ok();
+      expect(lib.isValidHour('1:1')).not.ok();
     });
 
     it('should return false if string is invalid', function () {
