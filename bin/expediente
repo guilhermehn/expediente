@@ -14,9 +14,22 @@ var expediente = require('../');
 var options = ['hours', 'tolerance', 'early', 'simple'];
 var logger = console.log;
 var defaultFormat = 'HH:mm';
-var now = moment();
 var config = {};
 var userConfig;
+
+var oldWarn = console.warn;
+
+console.warn = function () {
+  try {
+    throw new Error();
+  }
+  catch (e) {
+    console.log(e.stack);
+  }
+
+  console.log(arguments);
+  oldWarn.apply(console, arguments);
+}.bind(console);
 
 /**
  * Map a object by its keys
@@ -43,15 +56,20 @@ function mapByKeys (obj, iterator) {
  * @return undefined
  */
 function logDetailed (result) {
+  var now = moment();
+
   // Transform each result item to moment object
   result = mapByKeys(result, function (key) {
     return moment(result[key], defaultFormat);
   });
 
+  // Check if now is close to finish time
+  var almost = result.finish.diff(now, 'minutes') <= 30;
   var onLimit = now.isAfter(result.finish) && now.isBefore(result.limit);
+  var goodToGo = now.isAfter(result.minimum);
 
   result = mapByKeys(result, function (key) {
-    return result[key].format(defaultFormat);
+    return lib.format(result[key]);
   });
 
   // Log the start time
@@ -59,14 +77,11 @@ function logDetailed (result) {
 
   // If there's a remaining time, log it
   if (result.remaining) {
-    // Check if now is close to finish time
-    var almost = result.finish.diff(now, 'minutes') <= 30;
     console.log('Remaining', almost ? chalk.blue(result.remaining) : result.remaining);
   }
 
   // If there's a minimum time, log it
   if (result.minimum) {
-    var goodToGo = now.isAfter(result.minimum);
     console.log('Minimum  ', goodToGo ? chalk.green(result.minimum) : result.minimum);
   }
 
