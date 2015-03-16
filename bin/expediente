@@ -17,20 +17,6 @@ var defaultFormat = 'HH:mm';
 var config = {};
 var userConfig;
 
-var oldWarn = console.warn;
-
-console.warn = function () {
-  try {
-    throw new Error();
-  }
-  catch (e) {
-    console.log(e.stack);
-  }
-
-  console.log(arguments);
-  oldWarn.apply(console, arguments);
-}.bind(console);
-
 /**
  * Map a object by its keys
  * @param  {Object}   obj       The object which the keys will be mapped
@@ -60,16 +46,7 @@ function logDetailed (result) {
 
   // Transform each result item to moment object
   result = mapByKeys(result, function (key) {
-    return moment(result[key], defaultFormat);
-  });
-
-  // Check if now is close to finish time
-  var almost = result.finish.diff(now, 'minutes') <= 30;
-  var onLimit = now.isAfter(result.finish) && now.isBefore(result.limit);
-  var goodToGo = now.isAfter(result.minimum);
-
-  result = mapByKeys(result, function (key) {
-    return lib.format(result[key]);
+    return lib.format(moment(result[key], defaultFormat));
   });
 
   // Log the start time
@@ -77,20 +54,20 @@ function logDetailed (result) {
 
   // If there's a remaining time, log it
   if (result.remaining) {
-    console.log('Remaining', almost ? chalk.blue(result.remaining) : result.remaining);
+    console.log('Remaining', result.remaining);
   }
 
   // If there's a minimum time, log it
   if (result.minimum) {
-    console.log('Minimum  ', goodToGo ? chalk.green(result.minimum) : result.minimum);
+    console.log('Minimum  ', result.minimum);
   }
 
   // Log the finish time
-  console.log('Finish   ', onLimit ? chalk.red(result.finish) : result.finish);
+  console.log('Finish   ', result.finish);
 
   // If there's a limit time, log it
   if (result.limit) {
-    console.log('Limit    ', onLimit ? chalk.yellow(result.limit) : result.limit);
+    console.log('Limit    ', result.limit);
   }
 }
 
