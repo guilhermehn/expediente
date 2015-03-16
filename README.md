@@ -11,7 +11,9 @@ Options:
   -V, --version            output the version number
   -h, --hours <HH:mm>      hours [HH:mm]
   -t, --tolerance <HH:mm>  tolerance [HH:mm]
-  -s, --simple             simple output
+  -e, --early <HH:mm>      time to be subtracted from the duration
+  -c, --config <file>      choose config file
+  -s, --simple             output finish time only
 ```
 
 ## Example

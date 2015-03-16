@@ -74,9 +74,9 @@ program
   .usage('<HH:mm> [options]')
   .option('-h, --hours <HH:mm>', 'hours [HH:mm]')
   .option('-t, --tolerance <HH:mm>', 'tolerance [HH:mm]')
+  .option('-e, --early <HH:mm>', 'time to be subtracted from the duration')
   .option('-c, --config <file>', 'choose config file')
-  .option('-s, --simple', 'output finish time only')
-  .option('-e, --early <HH:mm>', 'time to be subtracted from the duration');
+  .option('-s, --simple', 'output finish time only');
 
 // Help
 program.on('--help', function () {
