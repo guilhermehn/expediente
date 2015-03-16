@@ -85,7 +85,7 @@ describe('#expediente', function () {
         hours: testHours
       });
 
-      var now = moment();
+      var now = moment().set({ seconds: 0, milliseconds: 0 });
       var finish = moment(result.finish, 'HH:mm');
 
       if (finish.isAfter(now)) {

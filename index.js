@@ -64,7 +64,7 @@ function expediente (options) {
   }
 
   // Get the actual time
-  now = moment();
+  now = moment().set({ seconds: 0, milliseconds: 0 });
 
   // If now is before the finish time
   if (now.isBefore(finish)) {
