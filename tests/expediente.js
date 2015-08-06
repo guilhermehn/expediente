@@ -6,10 +6,17 @@ var start = '10:00';
 
 var testHours = '8:00';
 
-var simple = expediente({
+var minimum = expediente({
   start: start,
   hours: defaults.hours,
-  simple: true
+  tolerance: '00:15',
+  minimum: true
+});
+
+var finish = expediente({
+  start: start,
+  hours: defaults.hours,
+  finish: true
 });
 
 var verbose = expediente({
@@ -20,7 +27,15 @@ var verbose = expediente({
 
 describe('#expediente', function () {
   it('should calculate the expected exit time', function () {
-    expect(simple).eql('19:48');
+    expect(verbose.finish).eql('19:48');
+  });
+
+  it('should output only the finish time if the `finish` flag is passed', function () {
+    expect(finish).eql('19:48');
+  });
+
+  it('should output only the minimum time if the `minimum` flag is passed', function () {
+    expect(minimum).eql('19:33');
   });
 
   it('should return null if the start hour is invalid', function () {
@@ -31,11 +46,10 @@ describe('#expediente', function () {
     it('should accept a expedient time as second argument', function () {
       var options = {
         start: start,
-        hours: testHours,
-        simple: true
+        hours: testHours
       };
 
-      expect(expediente(options)).eql('18:00');
+      expect(expediente(options).finish).eql('18:00');
     });
 
     it('should return null if the expedient duration is invalid', function () {

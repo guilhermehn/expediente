@@ -76,7 +76,8 @@ program
   .option('-t, --tolerance <HH:mm>', 'tolerance [HH:mm]')
   .option('-e, --early <HH:mm>', 'time to be subtracted from the duration')
   .option('-c, --config <file>', 'choose config file')
-  .option('-s, --simple', 'output finish time only');
+  .option('-m, --minimum', 'output minimum time only')
+  .option('-f, --finish', 'output finish time only');
 
 // Help
 program.on('--help', function () {
@@ -129,10 +130,13 @@ options.forEach(function (option) {
   }
 });
 
-// If the --simple flag is not received
-// switch the logger function to the
-// detailed version
-if (!program.simple) {
+// If the --minimum nor --finish flags aren't received
+// switch the logger function to the detailed version
+if (!(program.minimum || program.finish)) {
+  if (program.minimum && !program.tolerance) {
+    console.log('The `--minimum` flag requires the `--tolerance` argument');
+  }
+
   logger = logDetailed;
 }
 

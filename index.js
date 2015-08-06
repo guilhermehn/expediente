@@ -31,10 +31,15 @@ function expediente (options) {
   // Finish time moment object
   var finish = start.clone().add(duration);
 
-  // If the output mode is set to simple
+  // If the output mode is set to `finish`
   // there's no need to continue, just
   // return the finish time string
-  if (options.simple) {
+  if (options.finish || options.simple) {
+    if (options.simple) {
+      console.log('Deprecation warning: the `--simple` flag will be removed from the next versions');
+      console.log('                     Use the `--finish` flag instead');
+    }
+
     return lib.format(finish);
   }
 
@@ -56,6 +61,14 @@ function expediente (options) {
     // to the result object
     if (tolerance.minutes() > 0 || tolerance.hours() > 0) {
       minimum = finish.clone().subtract(tolerance);
+
+      // If the output mode is set to `minimum`
+      // there's no need to continue, just
+      // return the minimum time string
+      if (options.minimum) {
+        return lib.format(minimum);
+      }
+
       result.limit = lib.format(finish.clone().add(tolerance));
     }
 
