@@ -12,8 +12,9 @@ Options:
   -h, --hours <HH:mm>      hours [HH:mm]
   -t, --tolerance <HH:mm>  tolerance [HH:mm]
   -e, --early <HH:mm>      time to be subtracted from the duration
-  -c, --config <file>      choose config file
-  -s, --simple             output finish time only
+  -c, --config <file>      JSON config file path
+  -f, --finish             output finish time only
+  -m, --minimum            output minimum time only
 ```
 
 ## Example
@@ -25,7 +26,7 @@ Minimum   20:15
 Finish    20:30
 Limit     20:45
 
-$ expediente 10:42 -s
+$ expediente 10:42 -f
 20:30
 ```
 
@@ -35,8 +36,11 @@ $ expediente 10:42 -s
 ## Optional Arguments
 - `-h HH:mm`: Expedient duration *(defaults to 9:48)*
 - `-t HH:mm`: Tolerance time after expedient *(defaults to 00:15)*
+- `-e HH:mm`: time to be subtracted from the duration
 - `-s`: Output simple info
 - `-c`: JSON config file path
+- `-f`: Output finish time only
+- `-m`: Output minimum time only
 
 ## Config
 If the file `~/.expedienteconfig.json` exists, expediente will
@@ -48,7 +52,7 @@ and tolerance time. Any command line argument will override the file config.
 {
   "hours": "9:00",     // Expedient duration
   "tolerance": "0:10", // Tolerance time
-  "simple": true       // Always output simplified info
+  "minimum": true      // Always output minimum time only
 }
 ```
 
