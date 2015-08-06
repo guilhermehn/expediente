@@ -1,6 +1,6 @@
 {
   "name": "expediente",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "CLI para cálculo de duração do expediente",
   "main": "./index.js",
   "preferGlobal": true,
