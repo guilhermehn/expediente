@@ -27,15 +27,15 @@ var verbose = expediente({
 
 describe('#expediente', function () {
   it('should calculate the expected exit time', function () {
-    expect(verbose.finish).eql('19:48');
+    expect(verbose.finish).eql('19:00');
   });
 
   it('should output only the finish time if the `finish` flag is passed', function () {
-    expect(finish).eql('19:48');
+    expect(finish).eql('19:00');
   });
 
   it('should output only the minimum time if the `minimum` flag is passed', function () {
-    expect(minimum).eql('19:33');
+    expect(minimum).eql('18:45');
   });
 
   it('should return null if the start hour is invalid', function () {
@@ -72,7 +72,7 @@ describe('#expediente', function () {
     });
 
     it('should return the exit hour', function () {
-      expect(verbose.finish).eql('19:48');
+      expect(verbose.finish).eql('19:00');
     });
 
     it('should work with all the hours argument', function () {
