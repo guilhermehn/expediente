@@ -34,7 +34,7 @@ $ expediente 10:42 -f
 - `HH:mm`: Start time
 
 ## Optional Arguments
-- `-h HH:mm`: Expedient duration *(defaults to 9:48)*
+- `-h HH:mm`: Expedient duration *(defaults to 9:00)*
 - `-t HH:mm`: Tolerance time after expedient *(defaults to 00:15)*
 - `-e HH:mm`: time to be subtracted from the duration
 - `-s`: Output simple info
