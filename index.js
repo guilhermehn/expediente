@@ -7,7 +7,7 @@ const DEFAULT_FORMAT = 'HH:mm'
  * @param  {object} options
  * @return {object}
  */
-function expediente (options) {
+function expediente(options) {
   // Return null if the options object is invalid
   if (!lib.isValidOptions(options)) {
     return null
@@ -78,10 +78,10 @@ function expediente (options) {
         hours: toleranceHours,
         minutes: toleranceMinutes
       }))
-    }
 
-    // Add the minimum property to the result object
-    result.minimum = lib.format(minimum)
+      // Add the minimum property to the result object
+      result.minimum = lib.format(minimum)
+    }
   }
 
   // Get the actual time
