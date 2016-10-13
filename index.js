@@ -1,6 +1,6 @@
 const moment = require('moment')
 const lib = require('./lib')
-const DEFAULT_FORMAT = 'HH:mm'
+const { DEFAULT_FORMAT } = require('./constants')
 
 /**
  * Calculate the expedient time
