@@ -61,8 +61,11 @@ function expediente (options) {
     // If the tolerance is greater than 0 minutes or 0 hours
     // calculate the minimum time and add the limit time
     // to the result object
-    if (tolerance.minutes() > 0 || tolerance.hours() > 0) {
-      minimum = finish.clone().subtract(toleranceMinutes, 'minutes')
+    if (toleranceMinutes > 0 || toleranceHours > 0) {
+      minimum = finish.clone().subtract({
+        hours: toleranceHours,
+        minutes: toleranceMinutes
+      })
 
       // If the output mode is set to `minimum`
       // there's no need to continue, just
