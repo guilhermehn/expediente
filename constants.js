@@ -1,0 +1,9 @@
+const DEFAULT_FORMAT = 'HH:mm'
+const DEFAULT_HOURS = '9:00'
+const DEFAULT_TOLERANCE = '0:00'
+
+module.exports = {
+  DEFAULT_FORMAT,
+  DEFAULT_HOURS,
+  DEFAULT_TOLERANCE
+}
