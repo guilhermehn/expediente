@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "commander": "^2.2.0",
-    "moment": "^2.9.0"
+    "moment": "^2.15.1"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
