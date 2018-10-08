@@ -1,5 +1,3 @@
-/*eslint no-console: "error"*/
-
 var moment = require('moment');
 var lib = require('./lib');
 var defaultFormat = 'HH:mm';
