@@ -1,3 +1,5 @@
+/*eslint no-console: "error"*/
+
 var moment = require('moment');
 var lib = require('./lib');
 var defaultFormat = 'HH:mm';
@@ -7,7 +9,7 @@ var defaultFormat = 'HH:mm';
  * @param  {object} options
  * @return {object}
  */
-function expediente (options) {
+function expediente(options) {
   var now;
   var minimum;
 
@@ -36,8 +38,10 @@ function expediente (options) {
   // return the finish time string
   if (options.finish || options.simple) {
     if (options.simple) {
+      /* eslint-disable no-console */
       console.log('Deprecation warning: the `--simple` flag will be removed from the next versions');
       console.log('                     Use the `--finish` flag instead');
+      /* eslint-enable no-console */
     }
 
     return lib.format(finish);
