@@ -6,7 +6,7 @@
   "preferGlobal": true,
   "scripts": {
     "test": "mocha tests/",
-    "lint": "./node_modules/.bin/eslint index.js \"lib/*\" \"tests/*\" bin/expediente "
+    "lint": "eslint index.js \"lib/*\" \"tests/*\" bin/expediente "
   },
   "author": "Guilherme Nagatomo",
   "license": "MIT",
