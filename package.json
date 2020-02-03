@@ -21,7 +21,7 @@
     "url": "git://github.com/guilhermehn/expediente.git"
   },
   "dependencies": {
-    "commander": "^2.2.0",
+    "commander": "^4.1.1",
     "moment": "^2.9.0"
   },
   "devDependencies": {
